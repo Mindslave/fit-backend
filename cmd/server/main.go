@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/Mindslave/fit-backend/internal/zap"
+	"github.com/Mindslave/fit-backend/internal/config"
 )
 
 func main() {
@@ -20,6 +21,11 @@ func run() error {
 		return err
 	}
 	logger.Info("I am Working")
+	config, err := config.Load("./env")
+	if err != nil {
+		return err
+	}
+	logger.Info("config loaded succesfully, driver: ", config.DBDriver)
 	return nil
 }
 
