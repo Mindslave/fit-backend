@@ -3,7 +3,8 @@ module github.com/Mindslave/fit-backend
 go 1.16
 
 require (
-	github.com/golang-migrate/migrate v3.5.4+incompatible // indirect
+	github.com/lib/pq v1.10.2
+	github.com/stretchr/testify v1.7.0
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.7.0 // indirect
 	go.uber.org/zap v1.18.1

@@ -1,1 +1,2 @@
+# Do not count code in the vedor directory towards the project stats
 vendor/** linguist-vendored

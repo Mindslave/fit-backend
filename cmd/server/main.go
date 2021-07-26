@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Mindslave/fit-backend/pkg/zap"
+	"github.com/Mindslave/fit-backend/internal/zap"
 )
 
 func main() {
