@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/pkg/errors"
 	"github.com/Mindslave/fit-backend/internal/zap"
 	"github.com/Mindslave/fit-backend/internal/config"
 )
@@ -18,14 +19,13 @@ func main() {
 func run() error {
 	logger, err := zap.NewLogger()
 	if err != nil {
-		return err
+		return errors.Wrap(err, "Could not instaniate logger")
 	}
-	logger.Info("I am Working")
-	config, err := config.Load("./env")
+	config, err := config.Load("./envs")
 	if err != nil {
-		return err
+		return errors.Wrap(err, "Could not load config")
 	}
-	logger.Info("config loaded succesfully, driver: ", config.DBDriver)
+	logger.Info(config.DBDriver)
 	return nil
 }
 
