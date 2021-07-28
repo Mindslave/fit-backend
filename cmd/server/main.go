@@ -21,7 +21,7 @@ func run() error {
 	if err != nil {
 		return errors.Wrap(err, "Could not instaniate logger")
 	}
-	config, err := config.Load("./envs")
+	config, err := config.Load("./env")
 	if err != nil {
 		return errors.Wrap(err, "Could not load config")
 	}
