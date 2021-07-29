@@ -1,12 +1,18 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 
+	"github.com/gin-gonic/gin"
 	"github.com/pkg/errors"
-	"github.com/Mindslave/fit-backend/internal/zap"
+	_ "github.com/lib/pq"
+
+	"github.com/Mindslave/fit-backend/internal/api"
 	"github.com/Mindslave/fit-backend/internal/config"
+	"github.com/Mindslave/fit-backend/internal/postgresql"
+	"github.com/Mindslave/fit-backend/internal/zap"
 )
 
 func main() {
@@ -25,11 +31,15 @@ func run() error {
 	if err != nil {
 		return errors.Wrap(err, "Could not load config")
 	}
-	logger.Info(config.DBDriver)
-	return nil
-}
-
-
-func newDB() error {
+	db, err := sql.Open(config.DBDriver, config.DBSource)
+	if err != nil {
+		return errors.Wrap(err, "Can't connect to database")
+	}
+	server := api.NewServer()
+	server.Router = gin.New()
+	server.Store = postgresql.NewStore(db)
+	server.Routes()
+	server.Start("127.0.0.1:8080")
+	logger.Info("so far so good")
 	return nil
 }

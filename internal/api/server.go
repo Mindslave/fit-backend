@@ -6,14 +6,15 @@ import (
 )
 
 type server struct {
-	store *postgresql.Store
-	router *gin.Engine
+	Store *postgresql.Store
+	Router *gin.Engine
 }
 
 func NewServer() *server {
 	s := &server{}
-	router := gin.Default()
-	s.router = router
-	s.routes()
 	return s
+}
+
+func (s *server) Start(address string) {
+	s.Router.Run(address)
 }

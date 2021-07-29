@@ -14,6 +14,12 @@ type Exercise struct {
 	Explanation       sql.NullString `json:"explanation"`
 	RequiredEquipment sql.NullString `json:"required_equipment"`
 	MuscleArea        sql.NullString `json:"muscle_area"`
+	Name              sql.NullString `json:"name"`
+}
+
+type ExercisesWorkout struct {
+	ExerciseID sql.NullInt64 `json:"exercise_id"`
+	WorkoutID  sql.NullInt64 `json:"workout_id"`
 }
 
 type User struct {
@@ -28,11 +34,6 @@ type User struct {
 type Workout struct {
 	ID           int64         `json:"id"`
 	TimeEstimate sql.NullInt32 `json:"time_estimate"`
-}
-
-type WorkoutsExercise struct {
-	ExerciseID sql.NullInt64 `json:"exercise_id"`
-	WorkoutID  sql.NullInt64 `json:"workout_id"`
 }
 
 type WorkoutsUser struct {

@@ -1,6 +1,5 @@
 package api
 
-import "fmt"
-
-func (s server) routes()  {
+func (s *server) Routes()  {
+	s.Router.POST("/create_user", s.createUser)
 }

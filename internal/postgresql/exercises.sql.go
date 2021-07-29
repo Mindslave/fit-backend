@@ -10,6 +10,7 @@ import (
 
 const createExercise = `-- name: CreateExercise :one
 INSERT INTO exercise (
+  name,
   weight, 
   reps, 
   time_between_reps, 
@@ -17,12 +18,13 @@ INSERT INTO exercise (
   required_equipment,
   muscle_area
 ) VALUES (
-  $1, $2, $3, $4, $5, $6
+  $1, $2, $3, $4, $5, $6, $7
 )
-RETURNING id, weight, reps, time_between_reps, explanation, required_equipment, muscle_area
+RETURNING id, weight, reps, time_between_reps, explanation, required_equipment, muscle_area, name
 `
 
 type CreateExerciseParams struct {
+	Name              sql.NullString `json:"name"`
 	Weight            sql.NullInt32  `json:"weight"`
 	Reps              sql.NullInt32  `json:"reps"`
 	TimeBetweenReps   sql.NullInt32  `json:"time_between_reps"`
@@ -33,6 +35,7 @@ type CreateExerciseParams struct {
 
 func (q *Queries) CreateExercise(ctx context.Context, arg CreateExerciseParams) (Exercise, error) {
 	row := q.db.QueryRowContext(ctx, createExercise,
+		arg.Name,
 		arg.Weight,
 		arg.Reps,
 		arg.TimeBetweenReps,
@@ -49,12 +52,13 @@ func (q *Queries) CreateExercise(ctx context.Context, arg CreateExerciseParams) 
 		&i.Explanation,
 		&i.RequiredEquipment,
 		&i.MuscleArea,
+		&i.Name,
 	)
 	return i, err
 }
 
 const getExercise = `-- name: GetExercise :one
-SELECT id, weight, reps, time_between_reps, explanation, required_equipment, muscle_area FROM exercise
+SELECT id, weight, reps, time_between_reps, explanation, required_equipment, muscle_area, name FROM exercise
 WHERE id = $1 LIMIT 1
 `
 
@@ -69,12 +73,13 @@ func (q *Queries) GetExercise(ctx context.Context, id int64) (Exercise, error) {
 		&i.Explanation,
 		&i.RequiredEquipment,
 		&i.MuscleArea,
+		&i.Name,
 	)
 	return i, err
 }
 
 const listExercises = `-- name: ListExercises :many
-SELECT id, weight, reps, time_between_reps, explanation, required_equipment, muscle_area FROM exercise
+SELECT id, weight, reps, time_between_reps, explanation, required_equipment, muscle_area, name FROM exercise
 ORDER BY name
 LIMIT $1
 OFFSET $2
@@ -102,6 +107,7 @@ func (q *Queries) ListExercises(ctx context.Context, arg ListExercisesParams) ([
 			&i.Explanation,
 			&i.RequiredEquipment,
 			&i.MuscleArea,
+			&i.Name,
 		); err != nil {
 			return nil, err
 		}

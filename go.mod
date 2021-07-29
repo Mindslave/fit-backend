@@ -3,6 +3,7 @@ module github.com/Mindslave/fit-backend
 go 1.16
 
 require (
+	github.com/gin-gonic/gin v1.7.2
 	github.com/lib/pq v1.10.2
 	github.com/pkg/errors v0.9.1
 	github.com/spf13/viper v1.8.1
