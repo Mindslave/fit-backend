@@ -19,4 +19,11 @@ sqlc:
 test:
 	go test -v -cover ./...
 
+swaggerexercises:
+	swagger generate server \
+		--target=./services/exercises/integration/ \
+		--spec=./api/exercises/swagger.yml \
+		--exclude-main \
+		--name=exercises
+
 .PHONY: postgres createdb dropdb migrateup migratedown sqlc
